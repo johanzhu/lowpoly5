@@ -59,6 +59,24 @@
 			padding: 30px 0 0 20px;
 			cursor: pointer;
 		}
+		#loading{
+			width: 100%;
+			height: 100%;
+			text-align: center;
+			position: absolute;
+			top: 0;
+			font-size: 30px;
+			font-family: "comic sans ms";
+			z-index: 5;
+			background-color: #82A1A4;
+		}
+		#loading:after{
+			display:inline-block;
+            width:0;
+            height:100%;
+            vertical-align:middle;
+            content:"";
+		}
 	</style>
 	<body>
 		<div id="world">
@@ -77,11 +95,15 @@
 		<a id="github" href="https://github.com/johanzhu" target="_blank">
 		    Follow me on github
 		</a>
+		<div id="loading">
+			Loading...
+		</div>
 		<script>
 			var scene,
 			camera,
-			renderer,
-			
+			renderer;
+			var loading = false;
+			var manager = null;
 			scene = new THREE.Scene();
 		    camera = new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,0.1,3000);
 			camera.position.set(0,0,800);
@@ -112,17 +134,23 @@
 			directionalLight.position.set( 0, 0.5, 1 );
 			scene.add( directionalLight );
             
-			
+			manager = new THREE.LoadingManager();
+		    manager.onLoad = function(){
+		    	console.log('resourse complete!');
+		    	loading = true;
+		    };
+		    var load = document.getElementById('loading');
+		    
 	    var onProgress = function ( xhr ) {
 		if ( xhr.lengthComputable ) {
 			var percentComplete = xhr.loaded / xhr.total * 100;
 					}
 		};
         var onError = function ( xhr ) { };
-        var mtlLoader1 = new THREE.MTLLoader();
+        var mtlLoader1 = new THREE.MTLLoader(manager );
             mtlLoader1.setPath( 'img/' );
             mtlLoader1.load( 'stone.mtl', function( materials ) {materials.preload();
-        var objLoader1 = new THREE.OBJLoader();
+        var objLoader1 = new THREE.OBJLoader(manager );
             objLoader1.setMaterials( materials );
             objLoader1.setPath( 'img/' );
             objLoader1.load( 'stone.obj', function ( object ) {
@@ -135,10 +163,10 @@
 		scene.add( object );animate();
 		}, onProgress, onError );});
 	    
-	    var mtlLoader2 = new THREE.MTLLoader();
+	    var mtlLoader2 = new THREE.MTLLoader(manager );
             mtlLoader2.setPath( 'img/' );
             mtlLoader2.load( 'house.mtl', function( materials ) {materials.preload();
-        var objLoader2 = new THREE.OBJLoader();
+        var objLoader2 = new THREE.OBJLoader(manager );
             objLoader2.setMaterials( materials );
             objLoader2.setPath( 'img/' );
             objLoader2.load( 'house.obj', function ( object ) {
@@ -150,10 +178,10 @@
 		scene.add( object );animate();
 		}, onProgress, onError );});
 		
-		var mtlLoader3 = new THREE.MTLLoader();
+		var mtlLoader3 = new THREE.MTLLoader(manager );
             mtlLoader3.setPath( 'img/' );
             mtlLoader3.load( 'treegroup.mtl', function( materials ) {materials.preload();
-        var objLoader3 = new THREE.OBJLoader();
+        var objLoader3 = new THREE.OBJLoader(manager );
             objLoader3.setMaterials( materials );
             objLoader3.setPath( 'img/' );
             objLoader3.load( 'treegroup.obj', function ( object ) {
@@ -165,10 +193,10 @@
 		scene.add( object );animate();
 		}, onProgress, onError );});
 	    
-	    var mtlLoader4 = new THREE.MTLLoader();
+	    var mtlLoader4 = new THREE.MTLLoader(manager );
             mtlLoader4.setPath( 'img/' );
             mtlLoader4.load( 'cloud.mtl', function( materials ) {materials.preload();
-        var objLoader4 = new THREE.OBJLoader();
+        var objLoader4 = new THREE.OBJLoader(manager );
             objLoader4.setMaterials( materials );
             objLoader4.setPath( 'img/' );
             objLoader4.load( 'cloud.obj', function ( object ) {
@@ -176,10 +204,10 @@
 		scene.add( object );animate();
 		}, onProgress, onError );});
 		
-		var mtlLoader5 = new THREE.MTLLoader();
+		var mtlLoader5 = new THREE.MTLLoader(manager );
             mtlLoader5.setPath( 'img/' );
             mtlLoader5.load( '宝石1.mtl', function( materials ) {materials.preload();
-        var objLoader5 = new THREE.OBJLoader();
+        var objLoader5 = new THREE.OBJLoader(manager );
             objLoader5.setMaterials( materials );
             objLoader5.setPath( 'img/' );
             objLoader5.load( '宝石1.obj', function ( object ) {
@@ -191,10 +219,10 @@
 		scene.add( object );animate();
 		}, onProgress, onError );});
 		
-		var mtlLoader6 = new THREE.MTLLoader();
+		var mtlLoader6 = new THREE.MTLLoader(manager );
             mtlLoader6.setPath( 'img/' );
             mtlLoader6.load( '宝石2.mtl', function( materials ) {materials.preload();
-        var objLoader6 = new THREE.OBJLoader();
+        var objLoader6 = new THREE.OBJLoader(manager );
             objLoader6.setMaterials( materials );
             objLoader6.setPath( 'img/' );
             objLoader6.load( '宝石2.obj', function ( object ) {
@@ -206,10 +234,10 @@
 		scene.add( object );animate();
 		}, onProgress, onError );});
 		
-		var mtlLoader7 = new THREE.MTLLoader();
+		var mtlLoader7 = new THREE.MTLLoader(manager );
             mtlLoader7.setPath( 'img/' );
             mtlLoader7.load( '宝石3.mtl', function( materials ) {materials.preload();
-        var objLoader7 = new THREE.OBJLoader();
+        var objLoader7 = new THREE.OBJLoader(manager );
             objLoader7.setMaterials( materials );
             objLoader7.setPath( 'img/' );
             objLoader7.load( '宝石3.obj', function ( object ) {
@@ -221,10 +249,10 @@
 		scene.add( object );animate();
 		}, onProgress, onError );});
 		
-		var mtlLoader8 = new THREE.MTLLoader();
+		var mtlLoader8 = new THREE.MTLLoader(manager );
             mtlLoader8.setPath( 'img/' );
             mtlLoader8.load( '宝石4.mtl', function( materials ) {materials.preload();
-        var objLoader8 = new THREE.OBJLoader();
+        var objLoader8 = new THREE.OBJLoader(manager );
             objLoader8.setMaterials( materials );
             objLoader8.setPath( 'img/' );
             objLoader8.load( '宝石4.obj', function ( object ) {
@@ -236,10 +264,10 @@
 		scene.add( object );animate();
 		}, onProgress, onError );});
 		
-		var mtlLoader9 = new THREE.MTLLoader();
+		var mtlLoader9 = new THREE.MTLLoader(manager );
             mtlLoader9.setPath( 'img/' );
             mtlLoader9.load( 'sky.mtl', function( materials ) {materials.preload();
-        var objLoader9 = new THREE.OBJLoader();
+        var objLoader9 = new THREE.OBJLoader(manager );
             objLoader9.setMaterials( materials );
             objLoader9.setPath( 'img/' );
             objLoader9.load( 'sky.obj', function ( object ) {
@@ -252,6 +280,9 @@
 	        
 			
 		function animate(){
+			if(loading == true){
+				load.style.display = 'none';
+			}
 		  requestAnimationFrame(animate);
 		    render();
 		}
